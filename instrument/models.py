@@ -9,6 +9,7 @@ from lims_gql import settings
 
 class Department(models.Model):
     name = models.CharField(max_length=256)
+    description = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
         return self.name
@@ -17,6 +18,17 @@ class Department(models.Model):
 class Manufacturer(models.Model):
     english_name = models.CharField(max_length=1024, blank=True, null=True)
     chinese_name = models.CharField(max_length=1024, blank=True, null=True)
+
+    def __unicode__(self):
+        return self.chinese_name or self.english_name
+
+
+class ReservationType(models.Model):
+    name = models.CharField(max_length=256)
+    description = models.TextField(blank=True, null=True)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Instrument(models.Model):
@@ -40,7 +52,8 @@ class Instrument(models.Model):
     manufacturer = models.ForeignKey(Manufacturer, null=True, blank=True)
     model = models.CharField(max_length=256, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    reservation_type = models.CharField(max_length=64, choices=RESERVATION_CHOICES, default="OL")
+    # reservation_type = models.CharField(max_length=64, choices=RESERVATION_CHOICES, default="OL")
+    reservation_type = models.ManyToManyField(ReservationType)
     sci_discount = models.BooleanField(default=True)
 
     def __unicode__(self):

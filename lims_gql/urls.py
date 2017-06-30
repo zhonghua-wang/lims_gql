@@ -23,5 +23,5 @@ from lims_gql import settings
 
 urlpatterns = [
                   url(r'^admin/', admin.site.urls),
-                  url(r'^graphql', csrf_exempt(GraphQLView.as_view(graphiql=True)), name='graphql'),
+                  url(r'^graphql', csrf_exempt(GraphQLView.as_view(graphiql=True)), name='GraphiQL'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
